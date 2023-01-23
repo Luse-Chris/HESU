@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_requisition_user,access_requisitions_user,model_payment_requisition,base.group_user,1,1,1,0
+access_requisition_lines_user,access_requisition_lines_user,model_payment_requisition_lines,base.group_user,1,1,1,0
+,,,,,,,
+access_requisition_approver,access_requisition_approver,model_payment_requisition,group_approver,1,1,1,0
+access_requisition_lines_approver,access_requisition_lines_approver,model_payment_requisition_lines,group_approver,1,1,1,0
+,,,,,,,
+access_requisition_administrator,access_requisition_administrator,model_payment_requisition,group_administrator,1,1,1,0
+access_requisition_lines_administrator,access_requisition_lines_administrator,model_payment_requisition_lines,group_administrator,1,1,1,0
+,,,,,,,
+access_budget_view,access_budget_view,account_budget.model_crossovered_budget,base.group_user,1,0,0,0

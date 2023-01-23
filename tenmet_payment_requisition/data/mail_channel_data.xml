@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="channel_mail_extended" model="mail.channel">
+        <field name="name">Tenmet Payment Requisition</field>
+        <field name="description">Tenmet Payment Requisition Notification.</field>
+        <field name="public">public</field>
+        <field name="group_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="channel_last_seen_partner_ids" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+</odoo>

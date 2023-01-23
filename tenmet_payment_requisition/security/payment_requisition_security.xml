@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="0">
+
+<!--        Category Payment Requisition under the Access Rights-->
+        <record model="ir.module.category" id="module_management">
+            <field name="name">TENMET Payment Requisition</field>
+            <field name="description">TENMET Payment Requisition</field>
+            <field name="sequence">7</field>
+        </record>
+
+<!--        Group 'All Approver'-->
+        <record model="res.groups" id="group_all_approver">
+            <field name="name">All Approver</field>
+            <field name="category_id" ref="module_management"/>
+        </record>
+
+<!--        Group 'Accountant'-->
+        <record model="res.groups" id="group_accounts">
+            <field name="name">Accountant</field>
+            <field name="category_id" ref="module_management"/>
+        </record>
+
+<!--        Group 'Manager'-->
+        <record model="res.groups" id="group_manager">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="module_management"/>
+            <field name="implied_ids" eval="[(4, ref('group_all_approver'))]"/>
+        </record>
+
+    </data>
+
+    <data noupdate="0">
+
+<!--User Can view only records he has created-->
+        <record model="ir.rule" id="user_sees_only_records_they_create">
+            <field name="name">User can view only records they create</field>
+            <field name="model_id" ref="model_payment_requisition"/>
+            <field name="domain_force">['|', '|', '|', ('to_authorize', '=', user.id),('to_certify', '=', user.id),('to_approve', '=', user.id), ('create_uid', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+<!--        All Approvers can see all records they are supposed to approve-->
+        <record model="ir.rule" id="all_approver_sees_all_records">
+            <field name="name">All Approver can view all Records Assigned to Them</field>
+            <field name="model_id" ref="model_payment_requisition"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('group_all_approver'))]"/>
+        </record>
+
+    </data>
+
+</odoo>
