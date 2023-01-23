@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record model="ir.sequence" id="seq_payment_voucher">
+            <field name="name">Payment Voucher</field>
+            <field name="code">payment.voucher</field>
+            <field name="prefix">PV/</field>
+            <field name="padding">4</field>
+            <field name="number_increment">1</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <report id="payment_vouchers_pdf_report"
+                model="payment.voucher"
+                string="Payment Voucher"
+                report_type="qweb-pdf"
+                name="tenmet_payment_voucher.report_payment_voucher"
+                file="tenmet_payment_voucher.report_payment_voucher"
+                print_report_name="'Payment Voucher - %s' % (object.name)"
+                groups="tenmet_payment_requisition.group_accountant"
+                menu="True"/>
+
+        <template id="report_payment_voucher_document">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                        <div class="page" t-if="o.pv_for == 'pay_req'">
+
+                            <h3><strong><center>PAYMENT VOUCHER</center></strong></h3>
+
+                            <br/><br/>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Payment Voucher Number: </strong><span t-field="o.name"/>
+                                </div>
+                                <div class="col-6">
+                                    <strong>For Payment Requisition Number: </strong><span t-field="o.pr_id.name"/>
+                                </div>
+                            </div>
+
+                            <div class="row mt64">
+                                <div class="col-6" t-if="o.pr_id.requestor">
+                                    <strong>Payee: </strong> <span t-field="o.pr_id.requestor"
+                                                                   t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+                                </div>
+                                <div class="col-6" t-if="o.print_date">
+                                    <strong>Date: </strong> <span t-field="o.print_date"/>
+                                </div>
+                            </div>
+
+                            <br></br>
+                            <br></br>
+
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th><span>Account</span></th>
+                                        <th><span>Particulars</span></th>
+                                        <th class="text-right"><span>Amount (Tshs)</span></th>
+                                    </tr>
+                                </thead>
+                                <body>
+                                    <tr t-foreach="o.pr_id.payment_requisition_lines" t-as="req">
+                                        <td><span t-field="req.account_id"/> </td>
+                                        <td><span t-field="req.name"/> </td>
+                                        <td class="text-right"><span t-field="req.line_total" t-options='{"widget": "float", "precision": 2}'/> </td>
+                                    </tr>
+                                </body>
+                            </table>
+
+                            <div id="total" class="row justify-content-end">
+                                <div class="col-4">
+                                    <table class="table table-sm">
+                                        <tr class="border-black o_total">
+                                            <td><strong>Requisition Total</strong></td>
+                                            <td class="text-right">
+                                                <span t-field="o.pr_id.requisition_total" t-options='{"widget": "monetary", "display_currency": o.pr_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <br></br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Cash/Cheque #________________________________________________: </strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Amount in Words: </strong> <span t-field="o.pr_id.requisition_total_in_words"/>
+                                </div>
+                            </div>
+
+                            <br></br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Prepared By:________________________________________________</strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Date:________________________________________________</strong>
+                                </div>
+                            </div>
+
+                            <br></br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Checked By:________________________________________________</strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Date:________________________________________________</strong>
+                                </div>
+                            </div>
+
+                            <br></br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Approved By:________________________________________________</strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Date:________________________________________________</strong>
+                                </div>
+                            </div>
+
+                            <br></br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Received By:________________________________________________</strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Date:________________________________________________</strong>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+         
+
+<!--                        Imprest Payment Voucher-->
+
+                        <div class="page" t-if="o.pv_for == 'imprest'">
+
+                            <h3><strong><center>PAYMENT VOUCHER</center></strong></h3>
+
+                            <br/><br/>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Payment Voucher Number: </strong><span t-field="o.name"/>
+                                </div>
+                                <div class="col-6">
+                                    <strong>For Imprest Application Number: </strong><span t-field="o.imprest_id.name"/>
+                                </div>
+                            </div>
+
+                            <div class="row mt64">
+                                <div class="col-6" t-if="o.imprest_id.applicant_id">
+                                    <strong>Payee: </strong> <span t-field="o.imprest_id.applicant_id"/>
+                                </div>
+                                <div class="col-6" t-if="o.print_date">
+                                    <strong>Date: </strong> <span t-field="o.print_date"/>
+                                </div>
+                            </div>
+
+                            <br></br>
+                            <br></br>
+
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th><span>Account</span></th>
+                                        <th><span>Particulars</span></th>
+                                        <th class="text-right"><span>Amount (Tshs)</span></th>
+                                    </tr>
+                                </thead>
+                                <body>
+                                    <tr t-foreach="o.imprest_id.imprest_application_line_ids" t-as="req">
+                                        <td> <p>
+                                            110400 Staff Imprests
+                                        </p> </td>
+                                        <td><span t-field="req.name"/> </td>
+                                        <td class="text-right"><span t-field="req.line_total" t-options='{"widget": "float", "precision": 2}'/> </td>
+                                    </tr>
+                                </body>
+                            </table>
+
+                            <div id="total" class="row justify-content-end">
+                                <div class="col-4">
+                                    <table class="table table-sm">
+                                        <tr class="border-black o_total">
+                                            <td><strong>Requisition Total</strong></td>
+                                            <td class="text-right">
+                                                <span t-field="o.imprest_total" t-options='{"widget": "monetary", "display_currency": o.pr_id.currency_id}'/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <br></br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Cash/Cheque #________________________________________________: </strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Amount in Words: </strong> <span t-field="o.imprest_total_in_words"/>
+                                </div>
+                            </div>
+
+                            <br></br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Prepared By:________________________________________________</strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Date:________________________________________________</strong>
+                                </div>
+                            </div>
+
+                            <br></br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Checked By:________________________________________________</strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Date:________________________________________________</strong>
+                                </div>
+                            </div>
+
+                            <br></br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Approved By:________________________________________________</strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Date:________________________________________________</strong>
+                                </div>
+                            </div>
+
+                            <br></br>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Received By:________________________________________________</strong>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Date:________________________________________________</strong>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="report_payment_voucher">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="tenmet_payment_voucher.report_payment_voucher_document"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

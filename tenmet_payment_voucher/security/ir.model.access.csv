@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tenmet_payment_voucher,access_tenmet_payment_voucher,model_payment_voucher,tenmet_payment_requisition.group_accountant,1,1,1,1
