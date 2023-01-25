@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!--        Inherit default Journal form view to add selection field-->
+        <record model="ir.ui.view" id="view_move_form_inherit">
+            <field name="name">view_move_form_inherit</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='ref']" position="before">
+                    <field name="voucher_options" widget="selection"
+                           attrs="{'invisible':[('type','in',['in_invoice','out_invoice'])], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="bank_account_id" widget="selection"
+                           attrs="{'invisible':[('voucher_options','not in',['payment_voucher'])], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="cheque_transfer_number"
+                           attrs="{'invisible':[('voucher_options','not in',['payment_voucher'])], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="customer_ref"
+                           attrs="{'readonly': [('state', '!=', 'draft')], 'invisible':[('type','not in',['in_invoice','out_invoice'])]}"/>
+                    <field name="branch"
+                           attrs="{'invisible':[('customer_ref', '!=', 'branch')], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="job"
+                           attrs="{'invisible':[('customer_ref', '!=', 'job')], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="lpo"
+                           attrs="{'invisible':[('customer_ref', '!=', 'lpo')], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="ticket"
+                           attrs="{'invisible':[('customer_ref', '!=', 'ticket')], 'readonly': [('state', '!=', 'draft')]}"/>
+
+                </xpath>
+
+            </field>
+        </record>
+
+        <!--        Inherit Invoice Template and add fields-->
+<!--        <record model="ir.ui.view" id="view_move_form_inherit">-->
+<!--            <field name="name">view_move_form_inherit</field>-->
+<!--            <field name="model">account.move</field>-->
+<!--            <field name="inherit_id" ref="account.view_move_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//field[@name='ref']" position="after">-->
+<!--                    <field name="customer_ref" attrs="{'readonly': [('state', '!=', 'draft')]}"/>-->
+<!--                    <field name="branch"-->
+<!--                           attrs="{'invisible':[('customer_ref', '!=', 'branch')], 'readonly': [('state', '!=', 'draft')]}"/>-->
+<!--                    <field name="job"-->
+<!--                           attrs="{'invisible':[('customer_ref', '!=', 'job')], 'readonly': [('state', '!=', 'draft')]}"/>-->
+<!--                    <field name="lpo"-->
+<!--                           attrs="{'invisible':[('customer_ref', '!=', 'lpo')], 'readonly': [('state', '!=', 'draft')]}"/>-->
+<!--                    <field name="ticket"-->
+<!--                           attrs="{'invisible':[('customer_ref', '!=', 'ticket')], 'readonly': [('state', '!=', 'draft')]}"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+
+    </data>
+</odoo>
