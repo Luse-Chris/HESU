@@ -50,15 +50,14 @@ class AccountMoveLine(models.Model):
 
     budget_balance = fields.Float(string='Budget Balance', compute='_compute_budget_balance', store=True, readonly=True)
 
-    # @api.depends('analytic_account_id')
+    @api.depends('analytic_distribution')
     def _compute_budget_balance(self):
-        self.budget_balance = 0.0
-        # for request in self:
-        #     amount = 0.0
-        #     if request.analytic_account_id:
-        #         budget_line = self.env['crossovered.budget.lines'].search([('analytic_account_id', '=', request.analytic_account_id.id)])
-        #         for line in budget_line:
-        #             amount += (line.practical_amount - line.planned_amount)
-        #     request.budget_balance = amount
+        for request in self:
+            amount = 0.0
+            if request.analytic_distribution:
+                budget_line = self.env['crossovered.budget.lines'].search([('analytic_account_id', '=', request.analytic_distribution)])
+                for line in budget_line:
+                    amount += (line.practical_amount - line.planned_amount)
+            request.budget_balance = amount
 
 
